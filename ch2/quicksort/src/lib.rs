@@ -116,4 +116,23 @@ mod tests {
 
 	assert_eq!(expected_list, larger_list);
     }
+
+    #[test]
+    fn reallyLargeList_sorts() {
+	let mut larger_list: Vec<i32> = vec![];
+	let mut rng = thread_rng();
+	
+	
+	for _i in 0..1000 {
+	    larger_list.push(rng.gen_range(0, 1000000));
+	}
+
+
+	sort(&mut larger_list, 1000);
+	
+	for i in 0..999 {
+	    assert!(larger_list[i] < larger_list[i+1]);
+	}
+    }
 }
+
