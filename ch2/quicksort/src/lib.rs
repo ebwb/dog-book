@@ -1,5 +1,7 @@
 use rand::prelude::*;
 
+//TODO(ebwb): iterative quicksort?
+
 pub fn sort(list: &mut [i32], end: usize) {
     
     if end <= 1 {
