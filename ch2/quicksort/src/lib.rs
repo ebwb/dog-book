@@ -1,22 +1,16 @@
 use rand::prelude::*;
 
 pub fn sort(list: &mut [i32], end: usize) {
-
-    println!("list: {:?}", list);
-    println!("end: {:?}", end);
     
     if end <= 1 {
-	println!("found end, returning");
         return;
     }
     
     let mut rng = thread_rng();
     let random_index : usize = rng.gen_range(0, end);
     let _random_index = end;
-    println!("pivot: {}", random_index);
     
     swap(list, 0, random_index);
-    println!("first swap: {:?}", list);
     let mut last = 0;
 
     for i in 1..end {
@@ -27,13 +21,9 @@ pub fn sort(list: &mut [i32], end: usize) {
     }
 
     
-    println!("last: {:?}", last);
     swap(list, 0, last);
-    println!("now list: {:?}", list);
-    println!("sorting lower half");
     sort(&mut list[0..last], last);
-    println!("sorting upper half");
-    sort(&mut list[last..end], end-last);
+    sort(&mut list[(last+1)..end], end-last-1);
 }
 
 // assumes both i and j are valid elements in list. panics if not.
@@ -121,17 +111,16 @@ mod tests {
     fn reallyLargeList_sorts() {
 	let mut larger_list: Vec<i32> = vec![];
 	let mut rng = thread_rng();
-	
-	
-	for _i in 0..1000 {
-	    larger_list.push(rng.gen_range(0, 1000000));
+	let list_size = 100_000;
+	for _i in 0..list_size {
+	    larger_list.push(rng.gen_range(0, 10000));
 	}
 
-
-	sort(&mut larger_list, 1000);
+	sort(&mut larger_list, list_size);
 	
-	for i in 0..999 {
-	    assert!(larger_list[i] < larger_list[i+1]);
+	for i in 0..(list_size - 1) {
+	    println!("left: {}, right: {}", larger_list[i], larger_list[i+1]);
+	    assert!(larger_list[i] <= larger_list[i+1]);
 	}
     }
 }
